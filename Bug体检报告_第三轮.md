@@ -119,7 +119,7 @@ v22 已归档到 `app/_旧版_v22_规则自证修复前/`。
 ## 7. 复现命令
 
 ```sh
-cd /workspace/FNERoot_通用提权包
+cd FNERoot_通用提权包
 python3 simulate/bugcheck_v3.py          # 第三轮 13 例 + 4 项链路
 python3 simulate/bugcheck_v2.py          # 第二轮回归
 python3 simulate/simulate_honor70.py     # 全套模拟 25 项
