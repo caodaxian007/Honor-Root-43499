@@ -14,13 +14,12 @@ App **不代跑提权脚本**，只负责校验、释放并生成搬运命令。
 
 | 文件 | 作用 |
 |---|---|
-| `frp_tool.py` | PC 端 `.frp` 构建 / 校验 / 查看 / 解包 |
+| `frp_tool.py` | PC 端 `.frp` 构建 / 校验 / 查看 / 解包（可独立运行，无外部依赖） |
 | `app/src/com/fne/universal/Frp.java` | App 端校验、导入、释放（与 PC 端规则逐字对齐） |
 | `app/src/com/fne/universal/MainActivity.java` | 通用壳 UI |
 | `docs/包格式规范.md` | `.frp` v1 包格式契约 |
 | `通用提权包制作教程_5.4系.md` | 5.4 系内核包制作教程 |
 | `Bug体检报告*.md` | 六轮 bug 实证与修复记录（累计 84 处） |
-| `simulate/bugcheck_v*.py` | 六轮双端交叉回归脚本（Java SE 真跑 App 侧校验器） |
 | `app/FNERoot-通用壳-v27.apk` | 已签名成品，v1/v2/v3 全签，versionCode 27 |
 
 ## 主推成品
@@ -33,8 +32,12 @@ App **不代跑提权脚本**，只负责校验、释放并生成搬运命令。
 ## 不包含什么
 
 本仓库**不含** `.frp` 示范包、`payload/` 物料（`e` / `kernelsu.ko` / `ksud` / 符号表 /
-`chain_hook.sh` / `fne_local.sh` 等）、签名私钥、构建脚本、旧版归档与历史中间产物。
-这些 APP 制作相关材料保留在私有仓库，不对外分发。
+`chain_hook.sh` / `fne_local.sh` 等）、签名私钥、构建脚本、偏移素材、回归实证脚本、
+旧版归档与历史中间产物。这些 **APP 制作相关材料**保留在私有仓库，不对外分发。
+
+六轮 bug 检验中用于双端交叉的回归脚本（`simulate/bugcheck_v*.py`，Java SE 真跑 App 侧
+校验器）依赖本机构建环境与私有物料，同样保留在私有仓；本仓的六份报告已完整记录
+用例设计、修前实测、修复与复验结论，可独立阅读。
 
 ## 尚未闭环
 
@@ -46,5 +49,9 @@ App **不代跑提权脚本**，只负责校验、释放并生成搬运命令。
 
 ```sh
 python3 frp_tool.py verify <你的包>.frp --json
-python3 simulate/bugcheck_v6.py     # 需自备 android-all-13.jar
+python3 frp_tool.py build  <素材目录>  <输出包>.frp
+python3 frp_tool.py inspect <你的包>.frp
 ```
+
+`frp_tool.py` 为单文件、仅依赖 Python 标准库，可直接运行。App 侧规则见
+`app/src/com/fne/universal/Frp.java`，两端逐字对齐；两端差异与收敛结论见六份 Bug 体检报告。
